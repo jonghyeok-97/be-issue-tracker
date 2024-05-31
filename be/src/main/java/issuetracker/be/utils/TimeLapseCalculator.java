@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class TimeLapseCalculator {
 
   private static final String SECOND_TIME_LAPSE = "초 전";
@@ -17,8 +19,9 @@ public class TimeLapseCalculator {
   private static final String NONE = "";
 
   public static String between(LocalDateTime start, LocalDateTime end) {
+
     if (start.isAfter(end)) {
-      throw new IllegalArgumentException("잘못된 날짜를 입력했습니다.");
+      throw new IllegalArgumentException(start + " 은 " + end + " 보다 빠를 수 없습니다.");
     }
 
     LocalTime startTime = start.toLocalTime();
