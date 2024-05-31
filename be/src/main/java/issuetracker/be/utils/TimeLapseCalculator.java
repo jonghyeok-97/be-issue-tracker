@@ -21,7 +21,7 @@ public class TimeLapseCalculator {
   public static String between(LocalDateTime start, LocalDateTime end) {
 
     if (start.isAfter(end)) {
-      return "0초 전";
+      throw new IllegalArgumentException(start + " 은 " + end + " 보다 빠를 수 없습니다.");
     }
 
     LocalTime startTime = start.toLocalTime();
