@@ -1,0 +1,15 @@
+name: 이슈트래커
+
+on:
+  push:
+    branches:
+      - be-dev-gromit
+
+jobs:
+  My-cicd-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 헬로월드찍기
+        run: echo "Hello World!"
+  
