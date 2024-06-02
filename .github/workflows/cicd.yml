@@ -12,4 +12,10 @@ jobs:
     steps:
       - name: 헬로월드찍기
         run: echo "Hello World!"
+
+      - name: 여러 명령어 찍기
+        run: |
+          echo "my name"
+          echo " is"
+          echo " jonghyeok "
   
