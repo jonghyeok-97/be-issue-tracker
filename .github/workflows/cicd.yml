@@ -10,12 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 헬로월드찍기
-        run: echo "Hello World!"
-
-      - name: 여러 명령어 찍기
-        run: |
-          echo "my name"
-          echo " is"
-          echo " jonghyeok "
+      - name: SSH로 EC2에 접속하기
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          script_stop: true
+          scripts: |
+            cd /home/ubuntu/issue-tracker
+            git pull origin be-dev-gromit
+            ./gradlew clean build
+            sudo fuser -k -n tcp 8080 || true
+            nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
+            
+            
   
