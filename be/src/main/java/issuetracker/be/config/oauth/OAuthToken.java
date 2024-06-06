@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @Getter
 public class OAuthToken {
-
   @JsonProperty("access_token")
   private String accessToken;
   @JsonProperty("token_type")

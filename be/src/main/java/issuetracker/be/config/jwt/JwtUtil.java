@@ -27,7 +27,7 @@ public class JwtUtil {
         .claim("login_id", userId)
         .setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-        .signWith(Keys.hmacShaKeyFor(env.getProperty("jwt.secretKey").getBytes()), SignatureAlgorithm.HS512)
+        .signWith(Keys.hmacShaKeyFor(env.getProperty("jwt.secret-key").getBytes()), SignatureAlgorithm.HS512)
         .compact();
   }
 
