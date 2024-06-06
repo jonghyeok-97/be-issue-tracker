@@ -6,10 +6,52 @@ on:
       - be-dev-gromit
 
 jobs:
-  My-cicd-job:
+  Deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 헬로월드찍기
-        run: echo "Hello World!"
+      - name: Github Repo에 올린 파일 불러오기
+        uses: actions/checkout@v4
+
+      - name: JDK 17버전 설치
+        uses: actions/setup-java@v4
+        with: 
+          distribution: temurin
+          java-version: 17
+
+      - name: applcation.yml 파일 만들기
+        run: echo "${{ secrets.APPLICATION.PROPERTIES }}" > ./src/main/resources/application.yml
+
+      - name: 테스트 및 빌드하기
+        run: ./gradlew clean build
+
+      - name: 빌드된 파일 이름 변경하기
+        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
+
+      - name: SCP로 EC2에 빌드된 파일 전송하기
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          source: project.jar
+          target: /home/ubuntu/issuetracker/tobe
+          
+      - name: SSH로 EC2에 접속하기
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script_stop: true
+          scripts: |
+            rm -rf /home/ubuntu/issuetracker/be
+            mkdir /home/ubuntu/issuetracker/be
+            mv /home/ubuntu/issuetracker/tobe/project.jar home/ubuntu/issuetracker/be/project.jar
+            cd /home/ubuntu/issuetracker/be
+            sudo fuser -k -n tcp 8080 || true
+            nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
+            rmj -rf /home/ubuntu/issuetracker/tobe
+            
+            
   
