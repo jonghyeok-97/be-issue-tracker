@@ -1,12 +1,4 @@
-FROM openjdk:17-jdk-slim
-WORKDIR /app
-
-ARG JAR_FILE=./build/libs/be-0.0.1-SNAPSHOT.jar
-
-COPY $JAR_FILE /app/be.jar
-
-EXPOSE 8080
-
+FROM eclipse-temurin:17-jdk-alpine
+COPY ./build/libs/*SNAPSHOT.jar airdnb.jar
 ENV TZ=Asia/Seoul
-
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "be.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "airdnb.jar"]
