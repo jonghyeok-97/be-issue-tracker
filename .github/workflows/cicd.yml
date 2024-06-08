@@ -53,8 +53,7 @@ jobs:
           cd be
           ls
           pwd
-          ls -la ./build/libs
-          ls ./build/libs/*SNAPSHOT.jar
+          ls ./build/libs
           docker build -t issue-tracker .
 
       - name: Docker 이미지에 Tag 붙이기
