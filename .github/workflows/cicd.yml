@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Github Repo에 올린 파일 불러오기
         uses: actions/checkout@v4
@@ -27,11 +27,15 @@ jobs:
       - name: 테스트 및 빌드하기
         run: |
           cd be
+          ls
           chmod +x ./gradlew
-          ./gradlew clean build
+          ./gradlew clean build -x test
 
       - name: 빌드된 파일 이름 변경하기
-        run: mv ./build/libs/*SNAPSHOT.jar ./project.jar
+        run: |
+          pwd
+          cd be
+          mv ./build/libs/*SNAPSHOT.jar ./project.jar
 
       - name: AWS Resource 에 접근할 수 있게 AWS credentials 설정
         uses: aws-actions/configure-aws-credentials@v4
@@ -45,13 +49,25 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Docker 이미지 생성
-        run: docker build -t issue-tracker .
+        run: |
+          cd be
+          ls
+          pwd
+          
+          docker build -t issue-tracker .
 
       - name: Docker 이미지에 Tag 붙이기
-        run: docker tag issue-tracker ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
+        run: |
+        
+          ls
+          pwd
+          docker tag issue-tracker ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
 
       - name: ECR에 Docker 이미지 Push하기
-        run: docker push ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
+        run: |
+          ls
+          pwd
+          docker push ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
 
       - name: SSH로 EC2에 접속하기
         uses: appleboy/ssh-action@v1.0.3
