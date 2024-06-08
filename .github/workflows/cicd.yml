@@ -34,6 +34,7 @@ jobs:
       - name: 빌드된 파일 이름 변경하기
         run: |
           pwd
+          cd be
           mv ./build/libs/*SNAPSHOT.jar ./project.jar
 
       - name: AWS Resource 에 접근할 수 있게 AWS credentials 설정
