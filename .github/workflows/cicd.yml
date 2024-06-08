@@ -53,6 +53,7 @@ jobs:
           cd be
           ls
           pwd
+          ls -la ./build/libs
           ls ./build/libs/*SNAPSHOT.jar
           docker build -t issue-tracker .
 
