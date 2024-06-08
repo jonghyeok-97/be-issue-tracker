@@ -49,13 +49,22 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Docker 이미지 생성
-        run: docker build -t issue-tracker .
+        run: |
+          ls
+          pwd
+          docker build -t issue-tracker .
 
       - name: Docker 이미지에 Tag 붙이기
-        run: docker tag issue-tracker ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
+        run: |
+          ls
+          pwd
+          docker tag issue-tracker ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
 
       - name: ECR에 Docker 이미지 Push하기
-        run: docker push ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
+        run: |
+          ls
+          pwd
+          docker push ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
 
       - name: SSH로 EC2에 접속하기
         uses: appleboy/ssh-action@v1.0.3
