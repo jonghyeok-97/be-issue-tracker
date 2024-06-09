@@ -50,10 +50,7 @@ jobs:
 
       - name: Docker 이미지 생성
         run: |
-          cd be
-          ls
-          pwd
-          ls ./build/libs
+        
           docker build -t issue-tracker .
 
       - name: Docker 이미지에 Tag 붙이기
@@ -61,7 +58,7 @@ jobs:
         
           ls
           pwd
-          docker tag project.jar ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
+          docker tag issue-tracker ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
 
       - name: ECR에 Docker 이미지 Push하기
         run: |
