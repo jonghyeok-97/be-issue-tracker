@@ -50,7 +50,7 @@ jobs:
 
       - name: Docker 이미지 생성
         run: |
-        
+          cd be
           docker build -t issue-tracker .
 
       - name: Docker 이미지에 Tag 붙이기
