@@ -75,7 +75,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script_stop: true
           script: |
-            docker stop issue-tracker || true
-            docker rm issue-tracker || true
-            docker pull ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
-            docker run -d --name issue-tracker -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
+            sudo docker stop issue-tracker || true
+            sudo docker rm issue-tracker || true
+            sudo docker pull ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
+            sudo docker run -d --name issue-tracker -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
