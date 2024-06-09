@@ -61,7 +61,7 @@ jobs:
         
           ls
           pwd
-          docker tag issue-tracker ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
+          docker tag project.jar ${{ steps.login-ecr.outputs.registry }}/issue-tracker:latest
 
       - name: ECR에 Docker 이미지 Push하기
         run: |
