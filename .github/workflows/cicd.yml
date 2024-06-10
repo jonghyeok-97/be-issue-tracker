@@ -46,7 +46,9 @@ jobs:
 
       - name: ECR에 로그인하기
         id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
+        # uses: aws-actions/amazon-ecr-login@v2
+        run: |
+          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin <your_account_id>.dkr.ecr.ap-northeast-2.amazonaws.com
 
       - name: Docker 이미지 생성
         run: |
