@@ -91,8 +91,7 @@ public class OAuthController {
 ```
 public class IssueFilterFactory {
 
-  public IssueFilters createIssueFilters(String assignee, String label, String milestone,
-      String reporter, List<Comment> comments) {
+  public IssueFilters createIssueFilters(String assignee, String label, String milestone, String reporter, List<Comment> comments) {
     List<IssueFilter> issueFilters = new ArrayList<>();
     addFilter(assignee, IssueAssigneeFilter::new, issueFilters);
     addFilter(label, IssueLabelFilter::new, issueFilters);
@@ -102,15 +101,13 @@ public class IssueFilterFactory {
     return new IssueFilters(issueFilters);
   }
 
-  private void addFilter(String value, Function<String, IssueFilter> valueToIssueFilter,
-      List<IssueFilter> issueFilters) {
+  private void addFilter(String value, Function<String, IssueFilter> valueToIssueFilter, List<IssueFilter> issueFilters) {
     Optional.ofNullable(value)
         .map(valueToIssueFilter)
         .ifPresent(issueFilters::add);
   }
 
-  private void addFilter(List<Comment> comments, Function<List<Comment>, IssueFilter> commentToIssueFilter,
-      List<IssueFilter> issueFilters) {
+  private void addFilter(List<Comment> comments, Function<List<Comment>, IssueFilter> commentToIssueFilter, List<IssueFilter> issueFilters) {
     if (!comments.isEmpty()) {
       issueFilters.add(commentToIssueFilter.apply(comments));
     }
